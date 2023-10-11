@@ -6,3 +6,19 @@
 body {
   font-family: "Poppins";
 }
+
+.custom-input-with-label input:focus-visible + label {
+  @apply transform -translate-y-1/2 top-0;
+  transition: all 0.5s ease;
+}
+.custom-input-with-label input:not(:placeholder-shown):not(:focus-visible) + label {
+  @apply hidden;
+}
+
+.custom-input-with-label textarea:focus-visible + label {
+  @apply transform -translate-y-1/2 top-0;
+  transition: all 0.5s ease;
+}
+.custom-input-with-label textarea:not(:placeholder-shown):not(:focus-visible) + label {
+  @apply hidden;
+}

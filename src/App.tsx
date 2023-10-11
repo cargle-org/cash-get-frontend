@@ -3,10 +3,12 @@ import useNotification from "./context/notification";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
 import IndexRoutes from "./routes";
+import useModal from "./context/modal";
 
 function App() {
   const { pageTitle } = useApp();
   const { getNotification } = useNotification();
+  const { getModal } = useModal();
   return (
     <HelmetProvider>
       <Helmet>
@@ -16,6 +18,7 @@ function App() {
         <IndexRoutes />
       </BrowserRouter>
       {getNotification()}
+      {getModal()}
     </HelmetProvider>
   );
 }

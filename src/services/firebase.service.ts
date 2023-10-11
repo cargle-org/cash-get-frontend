@@ -7,6 +7,7 @@ import "firebase/compat/database";
 import { store } from "../store";
 import { getAgentOrders, getShopOrders } from "../store/orderSlice";
 import { IOrderListItem, IResponse, IUser, UserEnum, OrderStatusEnum, IOrderCollectionListItem, CollectionProgressStatusEnum } from "./types";
+import { getOrderCollections } from "../store/orderCollectionSlice";
 // import {
 //   BASE_URL,
 //   FIREBASE_API_KEY,
@@ -18,19 +19,18 @@ import { IOrderListItem, IResponse, IUser, UserEnum, OrderStatusEnum, IOrderColl
 //   FIREBASE_STORAGE_BUCKET,
 // } from "@env";
 // import https from "../utils/https";
-import { getOrderCollections } from "store/orderCollectionSlice";
 
-// const firebaseConfig = {
-//   apiKey: FIREBASE_API_KEY,
-//   appId: FIREBASE_APP_ID,
-//   authDomain: FIREBASE_AUTH_DOMAIN,
-//   projectId: FIREBASE_PROJECT_ID,
-//   databaseURL: FIREBASE_DATABASE_URL,
-//   storageBucket: FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
-// };
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+};
 
-// firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 
@@ -60,6 +60,7 @@ const listenForOrders = (userId: string, role: UserEnum) => {
           activeOrders,
           openOrders,
           closedOrders,
+          sortedOrders,
         })
       );
     }

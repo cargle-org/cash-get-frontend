@@ -2,6 +2,9 @@ import { AnyAction, combineReducers, createSlice, PayloadAction, Reducer } from 
 import storage from "redux-persist/es/storage";
 import { authSlice } from "./authSlice";
 import { authApi } from "../services/auth.service";
+import { orderCollectionSlice } from "./orderCollectionSlice";
+import { orderSlice } from "./orderSlice";
+import { orderApi } from "../services/order.service";
 
 const appSlice = createSlice({
   name: "app",
@@ -33,9 +36,12 @@ const reducers = combineReducers({
   auth: authSlice.reducer,
   app: appSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
+  [orderApi.reducerPath]: orderApi.reducer,
+  orderCollection: orderCollectionSlice.reducer,
+  orders: orderSlice.reducer,
 });
 
-export const combinedMiddleware = [authApi.middleware];
+export const combinedMiddleware = [authApi.middleware, orderApi.middleware];
 
 export const rootReducer: Reducer = (state: ReturnType<typeof reducers>, action: AnyAction) => {
   if (action.type === "app/clearStore") {

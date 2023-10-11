@@ -1,7 +1,7 @@
 import React from "react";
 
-const DashboardShopRoutes = () => {
+const DashboardAgentRoutes = () => {
   return <div>DashboardAgentRoutes</div>;
 };
 
-export default DashboardShopRoutes;
+export default DashboardAgentRoutes;

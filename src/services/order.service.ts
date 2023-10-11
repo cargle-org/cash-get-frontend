@@ -5,7 +5,7 @@ import { RootState } from "../store/appSlice";
 export const orderApi = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_MKOBO_BASE_API_URL}/order`,
+    baseUrl: `${import.meta.env.VITE_BASE_API_URL}/order`,
     prepareHeaders: (headers, { getState }) => {
       const { accessToken } = (getState() as RootState).auth;
       if (accessToken) {
@@ -18,7 +18,7 @@ export const orderApi = createApi({
   endpoints: (builder) => ({
     createOrder: builder.mutation<IResponse<IOrder>, { shopId: string; body: ICreateOrderPayload }>({
       query: (payload) => ({
-        url: `/${payload.shopId}`,
+        url: `${payload.shopId}`,
         method: "POST",
         body: payload.body,
       }),

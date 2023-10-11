@@ -9,6 +9,7 @@ import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/es/integration/react";
 import { AppContextProvider } from "./context/index.tsx";
 import { NotificationContextProvider } from "./context/notification/index.tsx";
+import { ModalContextProvider } from "./context/modal/index.tsx";
 
 const persistor = persistStore(store);
 
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <PersistGate persistor={persistor}>
             <AppContextProvider>
               <NotificationContextProvider>
-                <App />
+                <ModalContextProvider>
+                  <App />
+                </ModalContextProvider>
               </NotificationContextProvider>
             </AppContextProvider>
           </PersistGate>
