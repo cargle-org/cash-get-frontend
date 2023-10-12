@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/appSlice";
 
 const DashboardShopOpenOrders = () => {
-  const openOrders = useSelector((state: RootState) => state.orders.shopOrders.openOrders);
+  const openOrders = useSelector((state: RootState) => state.orders.agentOrders.openOrders);
   return (
     <section className="flex gap-8 h-full pb-5">
-      <div className=" flex-grow  rounded-2xl  overflow-auto space-y-8">
+      <div className=" flex-grow  rounded-2xl  overflow-auto  space-y-8">
         {openOrders.map((order) => (
           <OrderComplex order={order} />
         ))}
