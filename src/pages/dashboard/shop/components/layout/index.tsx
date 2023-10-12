@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import DashboardShopHeader from "./Header";
 import DashboardShopSidebar from "./Sidebar";

@@ -1,4 +1,3 @@
-import React from "react";
 import OrderHistory from "../../components/order/OrderHistory";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/appSlice";

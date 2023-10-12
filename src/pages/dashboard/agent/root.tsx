@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/appSlice";
 import { firebaseService } from "../../../services/firebase.service";

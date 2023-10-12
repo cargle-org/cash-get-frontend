@@ -1,4 +1,3 @@
-import React from "react";
 import OrderComplex from "../../components/order/OrderComplex";
 import OrderHistory from "../../components/order/OrderHistory";
 import { useSelector } from "react-redux";

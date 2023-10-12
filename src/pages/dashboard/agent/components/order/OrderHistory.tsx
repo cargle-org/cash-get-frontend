@@ -1,4 +1,3 @@
-import React from "react";
 import OrderSimple from "./OrderSimple";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/appSlice";

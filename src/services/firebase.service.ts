@@ -6,7 +6,7 @@ import "firebase/compat/messaging";
 import "firebase/compat/database";
 import { store } from "../store";
 import { getAgentOrders, getShopOrders } from "../store/orderSlice";
-import { IOrderListItem, IResponse, IUser, UserEnum, OrderStatusEnum, IOrderCollectionListItem, CollectionProgressStatusEnum } from "./types";
+import { IOrderListItem, UserEnum, OrderStatusEnum, IOrderCollectionListItem, CollectionProgressStatusEnum } from "./types";
 import { getOrderCollections } from "../store/orderCollectionSlice";
 // import {
 //   BASE_URL,

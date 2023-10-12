@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { pathTo } from "../../../../routes/routing";
 import DashboardShopActiveOrders from "./active-orders";

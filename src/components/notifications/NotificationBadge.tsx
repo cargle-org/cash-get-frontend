@@ -7,7 +7,7 @@ import gsap from "gsap";
 const NotificationBadge: React.FC<{ data: INotificationData; closeNotification: (id: string) => void }> = (props) => {
   const { closeNotification, data } = props;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [ctx, setCtx] = useState(gsap.context(() => {}));
+  const [ctx] = useState(gsap.context(() => {}));
   const badgeRef = useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
