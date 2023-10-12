@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { IModalContext, ModalTypes } from "./types";
-import ShopOpenOrderModal from "../../components/modal/shop-open-order";
+import ShopOpenOrderModal from "../../components/modal/shop-view-order";
+import ShopOrderCollectionModal from "../../components/modal/shop-view-order-collection";
 
 const ModalContext = createContext({});
 
@@ -28,6 +29,8 @@ export const ModalContextProvider: React.FC<{
     switch (activeModal) {
       case "shop-view-order":
         return <ShopOpenOrderModal onClose={closeModal} showModal={showModal} data={data} />;
+      case "shop-view-order-collection":
+        return <ShopOrderCollectionModal onClose={closeModal} showModal={showModal} data={data} />;
       default:
         return null;
     }

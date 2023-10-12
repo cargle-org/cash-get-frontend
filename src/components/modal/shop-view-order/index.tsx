@@ -6,10 +6,11 @@ import { FiX } from "react-icons/fi";
 import { nairaCurrencyFormatter } from "../../../utils/misc";
 import { IUser } from "../../../services/types";
 import moment from "moment";
+import OrderCollectionSimple from "../../../pages/dashboard/shop/components/order/OrderCollectionSimple";
 
 const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
   const { showModal, onClose, data: id } = props;
-  const { data, isFetching } = orderApi.useGetSingleOrderQuery(id!);
+  const { data } = orderApi.useGetSingleOrderQuery(id!);
   return (
     <ModalWrapper
       bodyStyle={{
@@ -27,7 +28,11 @@ const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
         <span className=" py-1 rounded px-7 bg-cash-get-dark-300 text-white font-medium">{data?.data?.status}</span>
       </div>
       <div className="w-full py-3 max-h-[460px] overflow-x-auto">
-        <h6 className=" text-center text-5xl font-medium py-5">{nairaCurrencyFormatter(data?.data?.amount || 0)}</h6>
+        <div className="text-center py-5">
+          <h6 className="text-5xl font-medium ">{nairaCurrencyFormatter(data?.data?.amount || 0)}</h6>
+          <p className=" text-sm">{data?.data?.address}</p>
+        </div>
+
         <div className=" flex items-center gap-5 px-8 py-5 border-t-2 border-cash-get-dark-100">
           <div className="h-[60px] w-[60px] rounded-full bg-cash-get-dark-200"></div>
           <div className="">
@@ -54,6 +59,20 @@ const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
             <span className=" text-lg font-light text-cash-get-dark-200 mr-4">Extra info:</span>
             <span className=" text-lg  block">{data?.data?.extraInfo}</span>
           </p>
+        </div>
+        <div className="border-t-2">
+          <div className="py-3">
+            <h6 className=" text-center text-2xl font-medium">Order Collections</h6>
+          </div>
+          <div className="">
+            {data?.data?.orderCollections && (
+              <>
+                {data.data.orderCollections.map((oC) => (
+                  <OrderCollectionSimple orderCollection={oC} />
+                ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </ModalWrapper>

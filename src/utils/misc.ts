@@ -10,3 +10,16 @@ export const nairaCurrencyFormatter = (num: number | string) => {
     currencyDisplay: "symbol",
   }).format(parseFloat(`${num}`))}`;
 };
+
+export const copyText = (text: string) => {
+  navigator.clipboard.writeText(text).then(
+    () => {
+      console.log("Content copied to clipboard");
+      /* Resolved - text copied to clipboard successfully */
+    },
+    () => {
+      console.error("Failed to copy");
+      /* Rejected - text failed to copy to the clipboard */
+    }
+  );
+};

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export type ModalTypes = "shop-view-order";
+export type ModalTypes = "shop-view-order" | "shop-view-order-collection";
 
 export interface IModalContext {
   openModal: (type: ModalTypes, payload?: any) => void;

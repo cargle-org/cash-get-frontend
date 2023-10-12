@@ -2,12 +2,16 @@ import React from "react";
 import { FiLogOut } from "react-icons/fi";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { linkTo, pathTo } from "../../../../../routes/routing";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../../../store/authSlice";
 
 const DashboardShopSidebar = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const naviagte = useNavigate();
   const onClickLogout = () => {
-    naviagte(`/${pathTo.auth}/${pathTo.logout}`);
+    dispatch(logout());
+    naviagte(`/${pathTo.auth}`);
   };
   return (
     <aside className="w-44 bg-white shadow shrink-0 rounded-tr py-14 flex-col flex">

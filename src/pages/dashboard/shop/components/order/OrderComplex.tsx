@@ -1,10 +1,11 @@
 import React from "react";
-import { FiChevronRight, FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart } from "react-icons/fi";
 import { IOrderListItem } from "../../../../../services/types";
 import moment from "moment";
 import { nairaCurrencyFormatter } from "../../../../../utils/misc";
 import useModal from "../../../../../context/modal";
 import { orderApi } from "../../../../../services/order.service";
+import OrderCollectionSimple from "./OrderCollectionSimple";
 
 interface IOrderComplex {
   order: IOrderListItem;
@@ -31,25 +32,7 @@ const OrderComplex: React.FC<IOrderComplex> = (props) => {
         {data?.data?.orderCollections && (
           <>
             {data.data.orderCollections.map((oC) => (
-              <div className="px-8 py-6 border-b border-[#D6D6D8]">
-                <div className=" flex items-center justify-between w-full">
-                  <div className="space-y-2">
-                    <p className="text-2xl font-bold">{nairaCurrencyFormatter(oC.amount)}</p>
-                    <p className="text-sm text-cash-get-dark-400">{oC.collectionProgressStatus}</p>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-sm text-cash-get-dark-200">Agent Name</p>
-                    <p className="text-sm text-cash-get-dark-400">{oC.agent?.name}</p>
-                  </div>
-                  <div className="space-y-2 text-right">
-                    <p className="text-sm text-cash-get-dark-200">Agent Number</p>
-                    <p className="text-sm text-cash-get-dark-400">{oC?.agent?.phoneNo}</p>
-                  </div>
-                  <div className="space-y-2 text-right">
-                    <FiChevronRight size={32} role="button" />
-                  </div>
-                </div>
-              </div>
+              <OrderCollectionSimple orderCollection={oC} />
             ))}
           </>
         )}

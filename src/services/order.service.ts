@@ -31,7 +31,7 @@ export const orderApi = createApi({
     }),
     getSingleOrderCollection: builder.query<IResponse<IOrderCollection>, string>({
       query: (body) => ({
-        url: `/${body}`,
+        url: `/orderCollection/${body}`,
         method: "GET",
       }),
     }),
