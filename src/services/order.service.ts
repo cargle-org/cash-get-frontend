@@ -48,7 +48,7 @@ export const orderApi = createApi({
       query: (payload) => ({
         url: `/${payload.orderId}/acceptOrder`,
         method: "POST",
-        body: JSON.stringify({ ...payload, agentId: `${payload.agentId}` }),
+        body: { ...payload, agentId: `${payload.agentId}` },
       }),
     }),
     confirmAgentKey: builder.mutation<IResponse<IOrderCollection>, { orderCollectionId: string; agentKey: string }>({

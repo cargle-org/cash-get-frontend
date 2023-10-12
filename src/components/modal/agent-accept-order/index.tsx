@@ -1,16 +1,53 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { IModal } from "../../../context/modal/types";
 import ModalWrapper from "..";
 import { orderApi } from "../../../services/order.service";
 import { FiX } from "react-icons/fi";
 import { nairaCurrencyFormatter } from "../../../utils/misc";
-import { IUser } from "../../../services/types";
+import { CollectionStatusEnum, IUser } from "../../../services/types";
 import moment from "moment";
 import Switch from "react-switch";
-import OrderCollectionSimple from "../../../pages/dashboard/shop/components/order/OrderCollectionSimple";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/appSlice";
+import useNotification from "../../../context/notification";
+
 const AgentAcceptOrderModal: React.FC<IModal<string>> = (props) => {
+  const { openNotification } = useNotification();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const [useSpikk, setUseSpikk] = useState(false);
+  const [partialMopup, setPartialMopup] = useState(false);
   const { showModal, onClose, data: id } = props;
   const { data } = orderApi.useGetSingleOrderQuery(id!);
+  const [mopupAmount, setMopupAmount] = useState(0);
+
+  const [acceptOrder, { data: res, isLoading, isSuccess, isError, error }] = orderApi.useAcceptOrderMutation();
+
+  useEffect(() => {
+    if (data) {
+      setMopupAmount(data.data?.remainingAmount || 0);
+    }
+  }, [data]);
+
+  useMemo(() => {
+    if (isSuccess) {
+      openNotification({
+        text: res!.message,
+        type: "success",
+      });
+      onClose();
+    }
+  }, [isSuccess]);
+
+  useMemo(() => {
+    if (isError) {
+      openNotification({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        text: (error as any)?.data?.message,
+        type: "failure",
+      });
+    }
+  }, [isError]);
+
   return (
     <ModalWrapper
       bodyStyle={{
@@ -62,15 +99,15 @@ const AgentAcceptOrderModal: React.FC<IModal<string>> = (props) => {
         </div>
         <div className={`px-8 py-5 border-t-2 border-cash-get-dark-100 space-y-5 `}>
           <div className="flex items-center gap-2">
-            <input type="checkbox" name="" id="" />
+            <input type="checkbox" name="" id="" checked={partialMopup} onChange={() => setPartialMopup(!partialMopup)} />
             <span className="">Partial Mockup</span>
           </div>
-          <div className="relative custom-input-with-label">
+          <div className={`relative custom-input-with-label ${!partialMopup && "opacity-50"} cursor-not-allowed`}>
             <input
-              //   disabled={data?.data?.agentConfirmed}
-              //   value={data?.data?.agentConfirmed ? data.data.agentKey : agentKey}
-              //   onChange={(e) => setAgentkey(e.target.value)}
-              type="tel"
+              disabled={!partialMopup}
+              value={mopupAmount}
+              onChange={(e) => setMopupAmount(parseFloat(e.target.value))}
+              type="text"
               id="mopupAmount"
               name="mopupAmount"
               className="h-20 rounded-lg border border-cash-get-dark-500 w-full px-4 focus-visible:outline-none"
@@ -86,22 +123,29 @@ const AgentAcceptOrderModal: React.FC<IModal<string>> = (props) => {
         </div>
         <div className={`px-8 pb-5 space-y-5 `}>
           <div className="flex items-center justify-between gap-2">
-            <span className="">Handle Yourself</span>
-            <Switch checked={true} onChange={() => {}} />
+            <span className="">{!useSpikk ? "Handle Yourself" : "Use Spikk"}</span>
+            <Switch
+              checked={useSpikk}
+              onChange={() => {
+                setUseSpikk(!useSpikk);
+              }}
+            />
           </div>
 
           <button
             type="submit"
-            // disabled={agentKey.length !== 7 || data?.data?.agentConfirmed || isLoading}
-            // onClick={() =>
-            //   confirmAgent({
-            //     orderCollectionId: data?.data?.id || "",
-            //     agentKey: agentKey,
-            //   })
-            // }
+            onClick={() =>
+              acceptOrder({
+                agentId: user!.id,
+                amount: mopupAmount,
+                collectionStatus: partialMopup ? CollectionStatusEnum.PARTIAL : CollectionStatusEnum.FULL,
+                orderId: data!.data!.id,
+                useSpikk: useSpikk,
+              })
+            }
             className=" h-20 rounded-lg text-white bg-[#0361F0] mt-7 text-lg font-medium w-full disabled:bg-cash-get-dark-200"
           >
-            {false ? "...isLoading" : "ACCEPT ORDER"}
+            {isLoading ? "...isLoading" : "ACCEPT ORDER"}
           </button>
         </div>
       </div>

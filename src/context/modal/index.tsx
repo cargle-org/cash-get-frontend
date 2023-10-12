@@ -4,6 +4,7 @@ import { IModalContext, ModalTypes } from "./types";
 import ShopOpenOrderModal from "../../components/modal/shop-view-order";
 import ShopOrderCollectionModal from "../../components/modal/shop-view-order-collection";
 import AgentAcceptOrderModal from "../../components/modal/agent-accept-order";
+import AgentOrderCollectionModal from "../../components/modal/agent-view-order-collection";
 
 const ModalContext = createContext({});
 
@@ -34,6 +35,8 @@ export const ModalContextProvider: React.FC<{
         return <ShopOrderCollectionModal onClose={closeModal} showModal={showModal} data={data} />;
       case "agent-accept-order":
         return <AgentAcceptOrderModal onClose={closeModal} showModal={showModal} data={data} />;
+      case "agent-view-order-collection":
+        return <AgentOrderCollectionModal onClose={closeModal} showModal={showModal} data={data} />;
       default:
         return null;
     }

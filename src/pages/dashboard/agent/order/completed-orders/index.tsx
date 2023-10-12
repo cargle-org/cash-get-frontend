@@ -1,16 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store/appSlice";
-import OrderComplex from "../../components/order/OrderComplex";
 import OrderHistory from "../../components/order/OrderHistory";
+import OrderCollectionComplex from "../../components/order/OrderCollectionComplex";
 
-const DashboardShopCompletedOrders = () => {
-  const completedOrders = useSelector((state: RootState) => state.orders.shopOrders.closedOrders);
+const DashboardAgentCompletedOrders = () => {
+  const completedOrderCollection = useSelector((state: RootState) => state.orderCollection.closedOrderCollections);
   return (
     <section className="flex gap-8 h-full pb-5">
       <div className=" flex-grow  rounded-2xl  overflow-auto space-y-8">
-        {completedOrders.length > 0 ? (
-          completedOrders.map((order) => <OrderComplex order={order} />)
+        {completedOrderCollection.length > 0 ? (
+          completedOrderCollection.map((orderCollection) => <OrderCollectionComplex orderCollection={orderCollection} />)
         ) : (
           <div className=" text-center">No Orders Available</div>
         )}
@@ -20,4 +20,4 @@ const DashboardShopCompletedOrders = () => {
   );
 };
 
-export default DashboardShopCompletedOrders;
+export default DashboardAgentCompletedOrders;
