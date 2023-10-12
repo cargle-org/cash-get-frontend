@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { INotificationContext, INotificationData, INotificationPayload } from "./types";
 import Notification from "../../components/notifications";
+import uuid from "uuid-random";
 
 const NotificationContext = createContext({});
 
@@ -11,9 +12,9 @@ export const NotificationContextProvider: React.FC<{
   const [notificationData, setNotificationData] = useState<INotificationData[]>([]);
 
   const openNotification = (data: INotificationPayload) => {
-    const uuid = crypto.randomUUID();
+    const id = uuid();
     setNotificationData((notificationData) => {
-      return [...notificationData, { ...data, id: uuid }];
+      return [...notificationData, { ...data, id: id }];
     });
   };
 
