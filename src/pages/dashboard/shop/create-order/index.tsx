@@ -7,10 +7,10 @@ import { orderApi } from "../../../../services/order.service";
 import { isObjectEmpty, nairaCurrencyFormatter } from "../../../../utils/misc";
 import useNotification from "../../../../context/notification";
 import OrderHistory from "../components/order/OrderHistory";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateOrder = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
   const shop = useSelector((state: RootState) => state.auth.user);
   const { openNotification } = useNotification();
   const [createOrder, { data, isSuccess, isLoading, error, isError }] = orderApi.useCreateOrderMutation();
@@ -36,6 +36,7 @@ const CreateOrder = () => {
         type: "success",
         text: data!.message,
       });
+      navigate("/dashboard/shop/order");
     }
   }, [isSuccess]);
 

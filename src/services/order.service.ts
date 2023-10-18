@@ -65,7 +65,7 @@ export const orderApi = createApi({
         body: JSON.stringify({ key: payload.shopKey }),
       }),
     }),
-    deleteOrder: builder.query<IResponse<null>, { orderId: string }>({
+    deleteOrder: builder.mutation<IResponse<null>, { orderId: string }>({
       query: (payload) => ({
         url: `/${payload.orderId}`,
         method: "DELETE",

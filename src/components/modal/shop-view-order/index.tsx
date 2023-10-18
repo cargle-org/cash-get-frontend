@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { IModal } from "../../../context/modal/types";
 import ModalWrapper from "..";
 import { orderApi } from "../../../services/order.service";
 import { FiX } from "react-icons/fi";
 import { nairaCurrencyFormatter } from "../../../utils/misc";
-import { IUser } from "../../../services/types";
+import { IUser, OrderStatusEnum } from "../../../services/types";
 import moment from "moment";
 import OrderCollectionSimple from "../../../pages/dashboard/shop/components/order/OrderCollectionSimple";
+import useNotification from "../../../context/notification";
 
 const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
   const { showModal, onClose, data: id } = props;
+  const { openNotification } = useNotification();
   const { data } = orderApi.useGetSingleOrderQuery(id!);
+  const [deleteOrder, { data: res, isLoading, isSuccess, isError, error }] = orderApi.useDeleteOrderMutation();
+
+  useMemo(() => {
+    if (isSuccess) {
+      openNotification({
+        type: "success",
+        text: res?.message || "",
+      });
+      onClose();
+    }
+  }, [isSuccess]);
+
+  useMemo(() => {
+    if (isError) {
+      openNotification({
+        type: "failure",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        text: (error as any)?.data.message || "",
+      });
+    }
+  }, [isError]);
   return (
     <ModalWrapper
       bodyStyle={{
@@ -60,6 +83,17 @@ const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
             <span className=" text-lg  block">{data?.data?.extraInfo}</span>
           </p>
         </div>
+        {data?.data?.status !== OrderStatusEnum.CREATED && (
+          <div className=" px-8 py-5 border-t-2 border-cash-get-dark-100 space-y-3">
+            <button
+              onClick={() => deleteOrder({ orderId: id! })}
+              type="submit"
+              className=" h-20 rounded-lg text-white bg-red-600 mt-7 text-lg font-medium w-full disabled:bg-cash-get-dark-200"
+            >
+              {isLoading ? "...isLoading" : "CANCEL ORDER"}
+            </button>
+          </div>
+        )}
         <div className="border-t-2">
           <div className="py-3">
             <h6 className=" text-center text-2xl font-medium">Order Collections</h6>
