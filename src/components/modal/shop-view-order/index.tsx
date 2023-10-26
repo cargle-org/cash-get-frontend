@@ -83,7 +83,7 @@ const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
             <span className=" text-lg  block">{data?.data?.extraInfo}</span>
           </p>
         </div>
-        {data?.data?.status !== OrderStatusEnum.CREATED && (
+        {data?.data?.status === OrderStatusEnum.CREATED && (
           <div className=" px-8 py-5 border-t-2 border-cash-get-dark-100 space-y-3">
             <button
               onClick={() => deleteOrder({ orderId: id! })}
@@ -102,7 +102,15 @@ const ShopOpenOrderModal: React.FC<IModal<string>> = (props) => {
             {data?.data?.orderCollections && (
               <>
                 {data.data.orderCollections.map((oC) => (
-                  <OrderCollectionSimple orderCollection={oC} />
+                  <OrderCollectionSimple
+                    key={oC.id}
+                    agentName={oC.agent?.name}
+                    agentNo={oC.agent?.phoneNo}
+                    amount={oC.amount}
+                    collectionProgressStatus={oC.collectionProgressStatus}
+                    collectionStatus={oC.collectionStatus}
+                    id={oC.id}
+                  />
                 ))}
               </>
             )}

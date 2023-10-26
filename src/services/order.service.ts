@@ -15,6 +15,7 @@ export const orderApi = createApi({
     },
     credentials: "include",
   }),
+  tagTypes: ["Order", "OrderCollection"],
   endpoints: (builder) => ({
     createOrder: builder.mutation<IResponse<IOrder>, { shopId: string; body: ICreateOrderPayload }>({
       query: (payload) => ({
@@ -28,12 +29,14 @@ export const orderApi = createApi({
         url: `/${body}`,
         method: "GET",
       }),
+      providesTags: (res) => [{ type: "Order", id: res?.data?.id }],
     }),
     getSingleOrderCollection: builder.query<IResponse<IOrderCollection>, string>({
       query: (body) => ({
         url: `/orderCollection/${body}`,
         method: "GET",
       }),
+      providesTags: (res) => [{ type: "OrderCollection", id: res?.data?.id }],
     }),
     acceptOrder: builder.mutation<
       IResponse<IOrder>,
@@ -50,20 +53,29 @@ export const orderApi = createApi({
         method: "POST",
         body: { ...payload, agentId: `${payload.agentId}` },
       }),
+      invalidatesTags: (res) => [{ type: "Order", id: res?.data?.id }],
     }),
     confirmAgentKey: builder.mutation<IResponse<IOrderCollection>, { orderCollectionId: string; agentKey: string }>({
       query: (payload) => ({
         url: `/${payload.orderCollectionId}/confirmAgent`,
         method: "POST",
-        body: JSON.stringify({ key: payload.agentKey }),
+        body: { key: payload.agentKey },
       }),
+      invalidatesTags: (res) => [
+        { type: "Order", id: res?.data?.orderId },
+        { type: "OrderCollection", id: res?.data?.id },
+      ],
     }),
     confirmShopKey: builder.mutation<IResponse<IOrderCollection>, { orderCollectionId: string; shopKey: string }>({
       query: (payload) => ({
         url: `/${payload.orderCollectionId}/confirmShop`,
         method: "POST",
-        body: JSON.stringify({ key: payload.shopKey }),
+        body: { key: payload.shopKey },
       }),
+      invalidatesTags: (res) => [
+        { type: "Order", id: res?.data?.orderId },
+        { type: "OrderCollection", id: res?.data?.id },
+      ],
     }),
     deleteOrder: builder.mutation<IResponse<null>, { orderId: string }>({
       query: (payload) => ({

@@ -4,7 +4,6 @@ import { IOrderListItem } from "../../../../../services/types";
 import moment from "moment";
 import { nairaCurrencyFormatter } from "../../../../../utils/misc";
 import useModal from "../../../../../context/modal";
-import { orderApi } from "../../../../../services/order.service";
 import OrderCollectionSimple from "./OrderCollectionSimple";
 
 interface IOrderComplex {
@@ -14,7 +13,7 @@ interface IOrderComplex {
 const OrderComplex: React.FC<IOrderComplex> = (props) => {
   const { order } = props;
   const { openModal } = useModal();
-  const { data } = orderApi.useGetSingleOrderQuery(order.id);
+
   return (
     <div className=" w-full rounded-b-3xl shadow">
       <div className="py-4 px-8 bg-cash-get-dark-500 rounded-t-lg flex justify-between items-center">
@@ -29,10 +28,18 @@ const OrderComplex: React.FC<IOrderComplex> = (props) => {
           </div>
           <p className=" text-4xl font-bold">{nairaCurrencyFormatter(order.amount)}</p>
         </div>
-        {data?.data?.orderCollections && (
+        {order.orderCollections && (
           <>
-            {data.data.orderCollections.map((oC) => (
-              <OrderCollectionSimple orderCollection={oC} />
+            {order.orderCollections?.map((oC) => (
+              <OrderCollectionSimple
+                key={oC.id}
+                agentName={oC.agentName}
+                agentNo={oC.agentNo}
+                amount={oC.amount}
+                collectionProgressStatus={oC.collectionProgressStatus}
+                collectionStatus={oC.collectionStatus}
+                id={oC.id}
+              />
             ))}
           </>
         )}
