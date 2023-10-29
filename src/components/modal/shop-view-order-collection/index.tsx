@@ -31,7 +31,7 @@ const ShopOrderCollectionModal: React.FC<IModal<string>> = (props) => {
       openNotification({
         type: "failure",
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        text: (error as any)?.data?.message || "",
+        text: (error as any)?.data?.message || "Couldn't confirm order",
       });
     }
   }, [isError]);

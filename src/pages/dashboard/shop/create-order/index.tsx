@@ -44,7 +44,7 @@ const CreateOrder = () => {
     if (!date) {
       return;
     }
-    console.log(date);
+
     const d = date.split(":");
     const hours = parseInt(d[0]);
     const minutes = parseInt(d[1]) || 0;
@@ -59,7 +59,7 @@ const CreateOrder = () => {
       openNotification({
         type: "failure",
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        text: error as any,
+        text: (error as any)?.data?.message || "Could not create order",
       });
     }
   }, [isError]);

@@ -42,7 +42,7 @@ const AgentAcceptOrderModal: React.FC<IModal<string>> = (props) => {
     if (isError) {
       openNotification({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        text: (error as any)?.data?.message,
+        text: (error as any)?.data?.message || "Couln't accept order",
         type: "failure",
       });
     }

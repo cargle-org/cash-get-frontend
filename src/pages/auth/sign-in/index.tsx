@@ -32,10 +32,10 @@ const SignIn = () => {
     if (isError) {
       openNotification({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        text: error as any,
+        text: (error as any).data?.message || "Couldn't sign in please retry",
         type: "failure",
       });
-      console.log(data);
+      console.log(error);
     }
   }, [isError]);
 
